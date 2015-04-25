@@ -15,7 +15,7 @@ type Bartender interface {
 }
 
 func NewBartender(configPath string) Bartender {
-	b = new(bartender)
+	b := new(bartender)
 	b.Init(configPath)
 	return b
 }
