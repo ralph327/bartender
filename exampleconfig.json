@@ -1,0 +1,8 @@
+{
+"DomainName": "localhost",
+"Port":	"8080",
+"SiteName": "test",
+"DBUser": "dbUser",
+"DBName": "db",
+"DBPassword": ""
+}
