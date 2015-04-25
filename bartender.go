@@ -14,6 +14,12 @@ type Bartender interface {
 	Start() error
 }
 
+func NewBartender(configPath string) Bartender {
+	b = new(bartender)
+	b.Init(configPath)
+	return b
+}
+
 type bartender struct {
 	server 	 *gin.Engine
 	database 	 *gorm.DB
