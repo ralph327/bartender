@@ -21,8 +21,8 @@ func NewBartender(configPath string) Bartender {
 }
 
 type bartender struct {
-	server 	 gin.Engine
-	database 	 gorm.DB
+	server 	 *gin.Engine
+	database 	 *gorm.DB
 	config 	 *config
 	startTime  time.Time
 	logger     *log.Logger
@@ -52,12 +52,12 @@ func (b *bartender) Init(configPath string) {
 	b.app.Flags = []cli.Flag{
 		cli.IntFlag{
 			Name:  "port,p",
-			Value: 3000,
+			Value: 8989,
 			Usage: "port for the proxy server",
 		},
 		cli.IntFlag{
 			Name:  "appPort,a",
-			Value: 3001,
+			Value: 9191,
 			Usage: "port for the Go web server",
 		},
 		cli.StringFlag{
