@@ -10,7 +10,7 @@ import (
 )
 
 type Bartender interface {
-	Init() 
+	Init(string) 
 	Start() 
 }
 
