@@ -12,7 +12,7 @@ import (
 
 type Bartender interface {
 	Init(string) 
-	Start() 
+	Start([]string) 
 }
 
 func NewBartender(configPath string) Bartender {
@@ -22,18 +22,22 @@ func NewBartender(configPath string) Bartender {
 }
 
 type bartender struct {
-	server 	 *gin.Engine
-	database 	 *gorm.DB
-	config 	 *config
-	startTime  time.Time
-	logger     *log.Logger
-	immediate  bool
-	buildError error
-	app 		 *cli.App
+	server 	  *gin.Engine
+	database 	  *gorm.DB
+	config 	  *config
+	startTime   time.Time
+	logger      *log.Logger
+	immediate   bool
+	buildError  error
+	app 		  *cli.App
+	environment string
 }
 
 func (b *bartender) Init(configPath string) {
 	var err error
+	
+	// Set environment to dev by default
+	b.environment = "dev"
 	
 	// Initialize the cli app
 	b.app = cli.NewApp()
@@ -103,6 +107,10 @@ func (b *bartender) Init(configPath string) {
 	b.immediate  = false
 }
 
-func (b *bartender) Start() {
-	b.server.Run(":8989")
+func (b *bartender) Start(args []string) {
+	if b.environment != "dev" {
+		b.server.Run(":8989")
+	} else if b.environment == "dev" {
+		b.app.Run(args)
+	}
 }
