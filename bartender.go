@@ -10,8 +10,8 @@ import (
 )
 
 type Bartender interface {
-	Init() error
-	Start() error
+	Init() 
+	Start() 
 }
 
 func NewBartender(configPath string) Bartender {
@@ -99,6 +99,6 @@ func (b *bartender) Init(configPath string) {
 	b.immediate  = false
 }
 
-func (b *bartender) Start(){
+func (b *bartender) Start() {
 	b.server.Run(":8989")
 }
