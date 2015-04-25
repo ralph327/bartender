@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"time"
+	"net/http"
 )
 
 type Bartender interface {
@@ -93,7 +94,7 @@ func (b *bartender) Init(configPath string) {
 			Action:    b.envAction,
 		},
 	}	
-	b.server.Default()
+	b.server = gin.Default()
 	b.server.GET("/", func(c *gin.Context) {
         c.String(http.StatusOK, "hello world")
     })
