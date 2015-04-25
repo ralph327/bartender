@@ -57,7 +57,7 @@ func (b *bartender) Init(configPath string) {
 	b.app.Flags = []cli.Flag{
 		cli.IntFlag{
 			Name:  "port,p",
-			Value: 8989,
+			Value: 9000,
 			Usage: "port for the proxy server",
 		},
 		cli.IntFlag{
