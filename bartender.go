@@ -21,8 +21,8 @@ func NewBartender(configPath string) Bartender {
 }
 
 type bartender struct {
-	server 	 *gin.Engine
-	database 	 *gorm.DB
+	server 	 gin.Engine
+	database 	 gorm.DB
 	config 	 *config
 	startTime  time.Time
 	logger     *log.Logger
