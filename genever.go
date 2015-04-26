@@ -17,6 +17,7 @@ import (
 	"time"
 )
 
+// Checks and sets flags
 func (b *bartender) initAction(c *cli.Context) {
 	b.logger.Println("initating genever")
 	b.environment = c.String("env")
@@ -24,9 +25,17 @@ func (b *bartender) initAction(c *cli.Context) {
 	if b.environment == "" {
 		b.environment = "dev"
 	}
+	
+	b.initiated = true
 }
 
+// runs genever
 func (b *bartender) mainAction(c *cli.Context) {
+	
+	if b.initiated == false {
+		b.initAction(c)
+	}
+	
 	port := c.GlobalInt("port")
 	appPort := strconv.Itoa(c.GlobalInt("appPort"))
 	b.immediate = c.GlobalBool("immediate")
@@ -96,6 +105,7 @@ func (b *bartender) mainAction(c *cli.Context) {
 	})
 }
 
+// reads .env
 func (b *bartender) envAction(c *cli.Context) {
 	// Bootstrap the environment
 	env, err := envy.Bootstrap()

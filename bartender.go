@@ -32,6 +32,7 @@ type bartender struct {
 	app 		  *cli.App
 	environment string
 	proxyOn	  bool
+	initiated   bool
 }
 
 func (b *bartender) Init(configPath string) {
@@ -115,12 +116,20 @@ func (b *bartender) Init(configPath string) {
 	b.logger     = log.New(os.Stdout, "[genever] ", 0)
 	b.immediate  = false
 	b.proxyOn    = false
+	b.initiated  = false
 }
 
 func (b *bartender) Start(args []string) {
+	b.logger.Println(args)
+
 	// Run initAction
-	b.app.Run(args)
-	
+	if len(args) == 1 {
+		b.app.Run(args)
+		
+		// Ensure that genever will run
+		args = append(args, "run")
+	}
+
 	b.logger.Println("Env: ", b.environment)
 	
 	// Run server based on environment
@@ -128,9 +137,6 @@ func (b *bartender) Start(args []string) {
 		case "production", "prod", "p", "child", "c":
 			b.server.Run(":8989")
 		case "development", "dev", "d":
-			b.logger.Println(args)
-			args = append(args, "run")
-			b.logger.Println(args)
 			b.app.Run(args)
 	}
 }
