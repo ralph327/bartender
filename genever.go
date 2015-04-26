@@ -98,6 +98,7 @@ func (b *bartender) build(builder genever.Builder, runner genever.Runner, logger
 type scanCallback func(path string)
 
 func (b *bartender) scanChanges(watchPath string, cb scanCallback) {
+	b.logger.Println("scanning for changes")
 	for {
 		filepath.Walk(watchPath, func(path string, info os.FileInfo, err error) error {
 			if path == ".git" {
