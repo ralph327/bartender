@@ -118,8 +118,7 @@ func (b *bartender) Start(args []string) {
 	b.logger.Println(args)
 	
 	// Run init
-	var empty []string
-	b.app.Run(empty)
+	b.app.Run(args[:0])
 
 	b.logger.Println("Env: ", b.config.Environment)
 	b.logger.Println(args)
