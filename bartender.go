@@ -131,7 +131,7 @@ func (b *bartender) Start(args []string) {
 	// Run server based on environment
 	switch b.config.Environment {
 		case "production", "prod", "p", "child", "c":
-			b.server.Run(":8989")
+			b.server.Run(":" + b.config.AppPort)
 		case "development", "dev", "d":
 			b.app.Run(args)
 	}
