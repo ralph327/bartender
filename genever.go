@@ -47,7 +47,7 @@ func (b *bartender) initAction(c *cli.Context) {
 	}
 	
 	// Set debugging flag, on by default
-	if b.config.Debugging == nil {
+	if b.config.Debugging != true && b.config.Debugging != false {
 		b.config.Debugging = true
 	}
 	if c.IsSet("debugging") {
