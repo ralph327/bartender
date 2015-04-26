@@ -33,7 +33,7 @@ func (b *bartender) mainAction(c *cli.Context) {
 		b.logger.Fatal(err)
 	}
 	
-	b.logger.Println(c.GlobalString("path"), c.GlobalString("bin"), c.GlobalBool("godep")
+	b.logger.Println(c.GlobalString("path"), c.GlobalString("bin"), c.GlobalBool("godep"))
 
 	builder := genever.NewBuilder(c.GlobalString("path"), c.GlobalString("bin"), c.GlobalBool("godep"))
 	runner := genever.NewRunner(filepath.Join(wd, builder.Binary()), c.Args()...)
