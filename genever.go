@@ -74,7 +74,8 @@ func (b *bartender) mainAction(c *cli.Context) {
 	b.logger.Println("Running builder: ", c.GlobalString("path"), c.GlobalString("bin"), c.GlobalBool("godep"))
 	builder := genever.NewBuilder(c.GlobalString("path"), c.GlobalString("bin"), c.GlobalBool("godep"))
 	b.logger.Println("before runner")
-	b.logger.Println("Running runner:", filepath.Join(wd, builder.Binary()), c.Args())
+	runArgs := append(c.Args(), "c")
+	b.logger.Println("Running runner:", filepath.Join(wd, builder.Binary()), runArgs)
 	runner := genever.NewRunner(filepath.Join(wd, builder.Binary()), c.Args()...)
 	b.logger.Println("before writer")
 	runner.SetWriter(os.Stdout)
@@ -105,7 +106,7 @@ func (b *bartender) mainAction(c *cli.Context) {
 	b.logger.Printf("listening on port %s\n", proxyPort)
 
 	b.logger.Println("before shutdown")
-	//b.shutdown(runner)
+	b.shutdown(runner)
 	b.logger.Println("after shutdown")
 
 	// build right now
