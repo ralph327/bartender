@@ -124,6 +124,8 @@ func (b *bartender) Start(args []string) {
 	// Run initAction
 	b.app.Run(args)
 	
+	b.logger.Println("Env: ", b.environment)
+	
 	// Run server based on environment
 	switch b.environment {
 		case "production", "prod", "p", "child", "c":
