@@ -120,7 +120,7 @@ func (b *bartender) Start(args []string) {
 		b.app.Run(args)
 		
 		// Ensure that genever will run
-		args = append(args, "c")
+		args = append(args, "r")
 	}
 
 	b.logger.Println("Env: ", b.config.Environment)
