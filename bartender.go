@@ -57,6 +57,11 @@ func (b *bartender) Init(configPath string) {
 	b.app.Action = b.mainAction
 	b.app.Flags = []cli.Flag{
 		cli.IntFlag{
+			Name:  "env,e",
+			Value: "d",
+			Usage: "environment to run server under",
+		},
+		cli.IntFlag{
 			Name:  "port,p",
 			Value: 9000,
 			Usage: "port for the proxy server",
@@ -111,10 +116,10 @@ func (b *bartender) Init(configPath string) {
 
 func (b *bartender) Start(args []string) {
 	switch b.environment {
-		case "production", "prod", "p":
+		case "production", "prod", "p", "child", "c":
 			b.server.Run(":8989")
 		case "development", "dev", "d":
+			b.logger.Println(args)
 			b.app.Run(args)
-			//b.server.Run(":9191")
 	}
 }
