@@ -8,12 +8,14 @@ import (
 
 type config struct {
 	DomainName string
-     Port string
      SiteName string
      DBUser string
      DBName string
      DBPassword string
      Put string
+     Environment string
+     AppPort     string
+	ProxyPort   string
 }
 
 

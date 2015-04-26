@@ -29,7 +29,6 @@ type bartender struct {
 	logger      *log.Logger
 	buildError  error
 	app 		  *cli.App
-	environment string
 	proxyOn	  bool
 	initiated   bool
 }
@@ -58,14 +57,14 @@ func (b *bartender) Init(configPath string) {
 			Value: "d",
 			Usage: "environment to run server under",
 		},
-		cli.IntFlag{
-			Name:  "port,p",
-			Value: 9000,
+		cli.StringFlag{
+			Name:  "proxyPort,p",
+			Value: "9000",
 			Usage: "port for the proxy server",
 		},
-		cli.IntFlag{
+		cli.StringFlag{
 			Name:  "appPort,a",
-			Value: 9191,
+			Value: "9001",
 			Usage: "port for the Go web server",
 		},
 		cli.StringFlag{
@@ -121,13 +120,13 @@ func (b *bartender) Start(args []string) {
 		b.app.Run(args)
 		
 		// Ensure that genever will run
-		args = append(args, "run")
+		args = append(args, "c")
 	}
 
-	b.logger.Println("Env: ", b.environment)
-	
+	b.logger.Println("Env: ", b.config.Environment)
+
 	// Run server based on environment
-	switch b.environment {
+	switch b.config.Environment {
 		case "production", "prod", "p", "child", "c":
 			b.server.Run(":8989")
 		case "development", "dev", "d":

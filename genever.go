@@ -12,7 +12,6 @@ import (
 	"os"
 	"os/signal"
 	"path/filepath"
-	"strconv"
 	"syscall"
 	"time"
 )
@@ -20,10 +19,35 @@ import (
 // Checks and sets flags
 func (b *bartender) initAction(c *cli.Context) {
 	b.logger.Println("initating genever")
-	b.environment = c.String("env")
 	
-	if b.environment == "" {
-		b.environment = "dev"
+	// Check and set environment
+	b.config.Environment = c.String("env")
+	
+	if b.config.Environment == "" {
+		b.config.Environment = "dev"
+	}
+	
+	// Ensure proxy and app ports are set
+	var tempPort string
+	
+	tempPort = c.String("appPort")
+	// Override config file to use flag
+	if tempPort != "" {
+		b.config.AppPort = tempPort
+	}
+	// If still empty, set to default
+	if b.config.AppPort == "" {		
+		b.config.AppPort = "9001"
+	}
+	
+	tempPort = c.String("proxyPort")
+	// Override config file to use flag
+	if tempPort != "" {
+		b.config.ProxyPort = tempPort
+	}
+	// If still empty, set to default
+	if b.config.ProxyPort == "" {
+		b.config.ProxyPort = "9000"
 	}
 	
 	b.initiated = true
@@ -36,8 +60,8 @@ func (b *bartender) mainAction(c *cli.Context) {
 		b.initAction(c)
 	}
 	
-	port := c.GlobalInt("port")
-	appPort := strconv.Itoa(c.GlobalInt("appPort"))
+	port := c.GlobalString("port")
+	appPort := c.GlobalString("appPort")
 
 	// Bootstrap the environment
 	envy.Bootstrap()
