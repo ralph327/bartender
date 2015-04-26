@@ -109,9 +109,9 @@ func (b *bartender) mainAction(c *cli.Context) {
 	b.logger.Println("after shutdown")
 
 	// build right now
-	b.logger.Println("before build")
-	b.build(builder, runner, b.logger)
-	b.logger.Println("after build")
+	//b.logger.Println("before build")
+	//b.build(builder, runner, b.logger)
+	//b.logger.Println("after build")
 
 	// scan for changes
 	b.scanChanges(c.GlobalString("path"), func(path string) {
