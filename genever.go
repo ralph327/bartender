@@ -43,6 +43,7 @@ func (b *bartender) mainAction(c *cli.Context) {
 	runner.SetWriter(os.Stdout)
 	b.logger.Println("before proxy")
 	proxy := genever.NewProxy(builder, runner)
+	b.logger.Println("after proxy")
 
 	config := &genever.Config{
 		Port:    port,
