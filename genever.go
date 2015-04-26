@@ -50,7 +50,9 @@ func (b *bartender) mainAction(c *cli.Context) {
 		ProxyTo: "http://localhost:" + appPort,
 	}
 
+	b.logger.Println("before proxy run")
 	err = proxy.Run(config)
+	b.logger.Println("after proxy run")
 	if err != nil {
 		b.logger.Fatal(err)
 	}
