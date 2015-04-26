@@ -51,7 +51,7 @@ func (b *bartender) Init(configPath string) {
 	// Set application data
 	b.app.Name = b.config.SiteName
 	b.app.Usage = "Bartender is a framework with a hot reload utility baked in. This is disabled on production environments."
-	b.app.Action = b.initAction
+	b.app.Action = b.mainAction
 	b.app.Flags = []cli.Flag{
 		cli.StringFlag{
 			Name:  "env,e",
@@ -116,18 +116,6 @@ func (b *bartender) Init(configPath string) {
 
 func (b *bartender) Start(args []string) {
 	b.logger.Println(args)
-
-	// Run initAction
-	if len(args) == 1 {
-		b.app.Run(args)
-		
-		// Ensure that genever will run
-		args = append(args, "r")
-	
-	// Child is running
-	} else if len(args) == 2 && args[1] == "c" {
-		b.app.Run(args)
-	}
 
 	b.logger.Println("Env: ", b.config.Environment)
 	b.logger.Println(args)
