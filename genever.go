@@ -35,9 +35,13 @@ func (b *bartender) mainAction(c *cli.Context) {
 	
 	b.logger.Println(c.GlobalString("path"), c.GlobalString("bin"), c.GlobalBool("godep"))
 
+	b.logger.Println("before builder")
 	builder := genever.NewBuilder(c.GlobalString("path"), c.GlobalString("bin"), c.GlobalBool("godep"))
+	b.logger.Println("before runner")
 	runner := genever.NewRunner(filepath.Join(wd, builder.Binary()), c.Args()...)
+	b.logger.Println("before writer")
 	runner.SetWriter(os.Stdout)
+	b.logger.Println("before proxy")
 	proxy := genever.NewProxy(builder, runner)
 
 	config := &genever.Config{
