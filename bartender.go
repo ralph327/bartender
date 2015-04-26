@@ -67,7 +67,7 @@ func (b *bartender) Init(configPath string) {
 		},
 		cli.StringFlag{
 			Name:  "bin,b",
-			Value: "genever",
+			Value: b.config.siteName,
 			Usage: "name of generated binary file",
 		},
 		cli.StringFlag{
