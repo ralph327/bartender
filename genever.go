@@ -46,10 +46,8 @@ func (b *bartender) initAction(c *cli.Context) {
 		b.config.ProxyPort = "9000"
 	}
 	
+	b.logger.Println("Default debugging: ", b.config.Debugging)
 	// Set debugging flag, on by default
-	if b.config.Debugging != true && b.config.Debugging != false {
-		b.config.Debugging = true
-	}
 	if c.IsSet("debugging") {
 		b.config.Debugging = true
 	}
