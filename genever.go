@@ -38,9 +38,7 @@ func (b *bartender) mainAction(c *cli.Context) {
 	builder := genever.NewBuilder(c.GlobalString("path"), c.GlobalString("bin"), c.GlobalBool("godep"))
 	runner := genever.NewRunner(filepath.Join(wd, builder.Binary()), c.Args()...)
 	runner.SetWriter(os.Stdout)
-	b.logger.Println("Before Proxy")
 	proxy := genever.NewProxy(builder, runner)
-	b.logger.Println("after proxy")
 
 	config := &genever.Config{
 		Port:    port,
@@ -55,14 +53,20 @@ func (b *bartender) mainAction(c *cli.Context) {
 	b.logger.Printf("listening on port %d\n", port)
 
 	b.shutdown(runner)
+	
+	b.logger.Println("after shutdown")
 
 	// build right now
+	b.logger.Println("before build")
 	b.build(builder, runner, b.logger)
+	b.logger.Println("after build")
 
 	// scan for changes
 	b.scanChanges(c.GlobalString("path"), func(path string) {
 		runner.Kill()
+		b.logger.Println("build after kill")
 		b.build(builder, runner, b.logger)
+		b.logger.Println("after build after kill")
 	})
 }
 
