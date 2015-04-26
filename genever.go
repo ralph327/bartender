@@ -17,6 +17,10 @@ import (
 	"time"
 )
 
+func (b *bartender) initAction(c *cli.Context) {
+	b.environment = c.String("env")
+}
+
 func (b *bartender) mainAction(c *cli.Context) {
 	port := c.GlobalInt("port")
 	appPort := strconv.Itoa(c.GlobalInt("appPort"))

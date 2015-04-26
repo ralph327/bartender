@@ -53,7 +53,7 @@ func (b *bartender) Init(configPath string) {
 	
 	// Set application data
 	b.app.Name = b.config.SiteName
-	b.app.Usage = "A live reload utility for Go web applications."
+	b.app.Usage = "Bartender is a framework with a hot reload utility baked in. This is disabled on production environments."
 	b.app.Action = b.mainAction
 	b.app.Flags = []cli.Flag{
 		cli.StringFlag{
@@ -92,6 +92,12 @@ func (b *bartender) Init(configPath string) {
 	}
 	b.app.Commands = []cli.Command{
 		{
+			Name:	 "init",
+			ShortName: "i",
+			Usage:	 "Initiate bartender",
+			Action:	 b.initAction,
+		},
+		{
 			Name:      "run",
 			ShortName: "r",
 			Usage:     "Run the genever proxy in the current working directory",
@@ -115,10 +121,16 @@ func (b *bartender) Init(configPath string) {
 }
 
 func (b *bartender) Start(args []string) {
+	// Run initAction
+	b.app.Run(args)
+	
+	// Run server based on environment
 	switch b.environment {
 		case "production", "prod", "p", "child", "c":
 			b.server.Run(":8989")
 		case "development", "dev", "d":
+			b.logger.Println(args)
+			args = append(args, "run")
 			b.logger.Println(args)
 			b.app.Run(args)
 	}
