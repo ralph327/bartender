@@ -56,7 +56,7 @@ func (b *bartender) Init(configPath string) {
 	b.app.Usage = "A live reload utility for Go web applications."
 	b.app.Action = b.mainAction
 	b.app.Flags = []cli.Flag{
-		cli.IntFlag{
+		cli.StringFlag{
 			Name:  "env,e",
 			Value: "d",
 			Usage: "environment to run server under",
