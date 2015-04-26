@@ -51,7 +51,7 @@ func (b *bartender) Init(configPath string) {
 	// Set application data
 	b.app.Name = b.config.SiteName
 	b.app.Usage = "Bartender is a framework with a hot reload utility baked in. This is disabled on production environments."
-	b.app.Action = b.mainAction
+	b.app.Action = b.initAction
 	b.app.Flags = []cli.Flag{
 		cli.StringFlag{
 			Name:  "env,e",
