@@ -18,6 +18,7 @@ import (
 )
 
 func (b *bartender) initAction(c *cli.Context) {
+	b.logger.Println("initating genever")
 	b.environment = c.String("env")
 }
 
