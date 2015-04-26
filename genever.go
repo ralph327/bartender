@@ -41,22 +41,27 @@ func (b *bartender) mainAction(c *cli.Context) {
 	runner := genever.NewRunner(filepath.Join(wd, builder.Binary()), c.Args()...)
 	b.logger.Println("before writer")
 	runner.SetWriter(os.Stdout)
-	b.logger.Println("before proxy")
-	proxy := genever.NewProxy(builder, runner)
-	b.logger.Println("after proxy")
-
+	var proxy
+	if b.proxyOn == false {
+		b.logger.Println("before proxy")
+		proxy = genever.NewProxy(builder, runner)
+		b.logger.Println("after proxy")
+	}
+	
 	config := &genever.Config{
 		Port:    port,
 		ProxyTo: "http://localhost:" + appPort,
 	}
 
 	b.logger.Println("before proxy run")
-	err = proxy.Run(config)
-	b.logger.Println("after proxy run")
-	if err != nil {
-		b.logger.Fatal(err)
+	if b.proxyOn == false {
+		err = proxy.Run(config)
+		b.logger.Println("after proxy run")
+		if err != nil {
+			b.logger.Fatal(err)
+		}
 	}
-
+	
 	b.logger.Printf("listening on port %d\n", port)
 
 	b.shutdown(runner)
