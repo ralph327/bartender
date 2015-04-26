@@ -49,21 +49,6 @@ func (b *bartender) initAction(c *cli.Context) {
 	b.initiated = true
 }
 
-func (b *bartender) checkMode(c *cli.Context) {
-	// running with no commands or flags
-	if len(c.Args()) == 1 {
-		
-	} else if len(c.Args()) > 1 {
-		if c.IsSet("env") || c.IsSet("e") {
-			var tempEnv string
-			tempEnv = c.String("env")
-			if tempEnv == "" {
-				tempEnv = c.String("e")
-			}
-		}
-	}
-}
-
 // runs genever
 func (b *bartender) mainAction(c *cli.Context) {
 	
@@ -74,9 +59,6 @@ func (b *bartender) mainAction(c *cli.Context) {
 	
 	// Bootstrap the environment
 	envy.Bootstrap()
-	
-	// check the run mode
-	b.checkMode(c)
 	
 	b.logger.Println("Printing c.string('env'):", c.GlobalString("env"))
 	
@@ -96,39 +78,41 @@ func (b *bartender) mainAction(c *cli.Context) {
 	b.logger.Println("before writer")
 	runner.SetWriter(os.Stdout)
 	
-	// Run proxy if not child process and not in production
-	proxyPort := b.config.ProxyPort
-	appPort := b.config.AppPort
-	
-	// Set the PORT env
-	os.Setenv("PORT", appPort)
-	
+	// Run proxy for development environment
 	var proxy *genever.Proxy
-	if b.proxyOn == false {
+	if c.String("env") == "development" || c.String("env") == "d" || c.String("env") == "dev" {
+		
+		// Run proxy if not child process and not in production
+		proxyPort := b.config.ProxyPort
+		appPort := b.config.AppPort
+		
+		// Set the PORT env
+		os.Setenv("PORT", appPort)
+		
 		b.logger.Println("before proxy")
 		proxy = genever.NewProxy(builder, runner)
 		b.logger.Println("after proxy")
-	}
-	
-	config := &genever.Config{
-		Port:    proxyPort,
-		ProxyTo: "http://localhost:" + appPort,
-	}
-
-	b.logger.Println("before proxy run")
-	if b.proxyOn == false {
-		err = proxy.Run(config)
-		b.logger.Println("after proxy run")
-		if err != nil {
-			b.logger.Println("Fatal error after proxy run")
-			b.logger.Fatal(err)
-		}else{
-			b.proxyOn = true
+		
+		config := &genever.Config{
+			Port:    proxyPort,
+			ProxyTo: "http://localhost:" + appPort,
 		}
+
+		b.logger.Println("before proxy run")
+		if b.proxyOn == false {
+			err = proxy.Run(config)
+			b.logger.Println("after proxy run")
+			if err != nil {
+				b.logger.Println("Fatal error after proxy run")
+				b.logger.Fatal(err)
+			}else{
+				b.proxyOn = true
+			}
+		}
+		
+		b.logger.Printf("listening on port %s\n", proxyPort)
 	}
 	
-	b.logger.Printf("listening on port %s\n", proxyPort)
-
 	b.logger.Println("before shutdown")
 	b.shutdown(runner)
 	b.logger.Println("after shutdown")
