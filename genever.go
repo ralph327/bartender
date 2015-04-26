@@ -101,7 +101,7 @@ func (b *bartender) mainAction(c *cli.Context) {
 		}
 	}
 	
-	b.logger.Printf("listening on port %v\n", proxyPort)
+	b.logger.Printf("listening on port %s\n", proxyPort)
 
 	b.shutdown(runner)
 	
