@@ -100,7 +100,7 @@ func (b *bartender) Init(configPath string) {
 	}	
 	b.server = gin.Default()
 	b.server.GET("/", func(c *gin.Context) {
-        c.String(http.StatusOK, "hello world")
+        c.String(http.StatusOK, b.config.Put)
     })
 	b.startTime  = time.Now()
 	b.logger     = log.New(os.Stdout, "[genever] ", 0)

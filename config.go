@@ -13,6 +13,7 @@ type config struct {
      DBUser string
      DBName string
      DBPassword string
+     Put string
 }
 
 
