@@ -9,7 +9,7 @@ import (
 type config struct {
 	DomainName string
      Port string
-     SiteName string
+     siteName string
      DBUser string
      DBName string
      DBPassword string
