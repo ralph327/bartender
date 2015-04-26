@@ -59,6 +59,8 @@ func (b *bartender) mainAction(c *cli.Context) {
 		b.logger.Println("after proxy run")
 		if err != nil {
 			b.logger.Fatal(err)
+		}else{
+			b.proxyOn = true
 		}
 	}
 	
