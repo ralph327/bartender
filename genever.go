@@ -23,10 +23,6 @@ func (b *bartender) initAction(c *cli.Context) {
 	// Check and set environment
 	b.config.Environment = c.String("env")
 	
-	if b.config.Environment == "" {
-		b.config.Environment = "dev"
-	}
-	
 	// Ensure proxy and app ports are set
 	var tempPort string
 	
