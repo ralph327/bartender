@@ -123,6 +123,10 @@ func (b *bartender) Start(args []string) {
 		
 		// Ensure that genever will run
 		args = append(args, "r")
+	
+	// Child is running
+	} else if len(args) == 2 && args[1] == "c" {
+		b.app.Run(args)
 	}
 
 	b.logger.Println("Env: ", b.config.Environment)
