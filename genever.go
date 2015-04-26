@@ -62,6 +62,11 @@ func (b *bartender) mainAction(c *cli.Context) {
 	
 	b.logger.Println("Printing c.string('env'):", c.GlobalString("env"))
 	
+	// The environment is set to production so run without proxy
+	if b.config.Environment == "production" || b.config.Environment == "p" {
+		b.server.Run(":" + b.config.AppPort)
+	}
+	
 	// Get working directory
 	wd, err := os.Getwd()
 	if err != nil {
