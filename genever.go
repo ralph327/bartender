@@ -70,7 +70,10 @@ func (b *bartender) mainAction(c *cli.Context) {
 
 	// scan for changes
 	b.scanChanges(c.GlobalString("path"), func(path string) {
-		runner.Kill()
+		err := runner.Kill()
+		
+		b.logger.Println("Kill err:", err)
+		
 		b.logger.Println("build after kill")
 		b.build(builder, runner, b.logger)
 		b.logger.Println("after build after kill")
