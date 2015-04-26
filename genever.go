@@ -20,6 +20,10 @@ import (
 func (b *bartender) initAction(c *cli.Context) {
 	b.logger.Println("initating genever")
 	b.environment = c.String("env")
+	
+	if b.environment == "" {
+		b.environment = "dev"
+	}
 }
 
 func (b *bartender) mainAction(c *cli.Context) {

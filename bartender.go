@@ -37,9 +37,6 @@ type bartender struct {
 func (b *bartender) Init(configPath string) {
 	var err error
 	
-	// Set environment to dev by default
-	b.environment = "dev"
-	
 	// Initialize the cli app
 	b.app = cli.NewApp()
 	
