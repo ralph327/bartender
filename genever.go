@@ -50,12 +50,12 @@ func (b *bartender) mainAction(c *cli.Context) {
 	if err != nil {
 		b.logger.Fatal(err)
 	}
-	
-	b.logger.Println(c.GlobalString("path"), c.GlobalString("bin"), c.GlobalBool("godep"))
 
 	b.logger.Println("before builder")
+	b.logger.Println("Running builder: ", c.GlobalString("path"), c.GlobalString("bin"), c.GlobalBool("godep"))
 	builder := genever.NewBuilder(c.GlobalString("path"), c.GlobalString("bin"), c.GlobalBool("godep"))
 	b.logger.Println("before runner")
+	b.logger.Println("Running runner:", filepath.Join(wd, builder.Binary()), c.Args()...)
 	runner := genever.NewRunner(filepath.Join(wd, builder.Binary()), c.Args()...)
 	b.logger.Println("before writer")
 	runner.SetWriter(os.Stdout)
