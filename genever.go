@@ -41,7 +41,7 @@ func (b *bartender) mainAction(c *cli.Context) {
 	runner := genever.NewRunner(filepath.Join(wd, builder.Binary()), c.Args()...)
 	b.logger.Println("before writer")
 	runner.SetWriter(os.Stdout)
-	var proxy
+	var proxy *genever.Proxy
 	if b.proxyOn == false {
 		b.logger.Println("before proxy")
 		proxy = genever.NewProxy(builder, runner)
