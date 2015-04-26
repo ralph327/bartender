@@ -88,7 +88,7 @@ func (b *bartender) Init(configPath string) {
 		{
 			Name:      "run",
 			ShortName: "r",
-			Usage:     "Run the gin proxy in the current working directory",
+			Usage:     "Run the genever proxy in the current working directory",
 			Action:    b.mainAction,
 		},
 		{
@@ -112,7 +112,7 @@ func (b *bartender) Start(args []string) {
 		case "production", "prod", "p":
 			b.server.Run(":8989")
 		case "development", "dev", "d":
-			go b.app.Run(args)
+			b.app.Run(args)
 			go b.server.Run(":9191")
 	}
 }
