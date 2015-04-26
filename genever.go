@@ -46,6 +46,10 @@ func (b *bartender) initAction(c *cli.Context) {
 		b.config.ProxyPort = "9000"
 	}
 	
+	if c.IsSet("debugging") {
+		b.config.Debugging = true
+	}
+	
 	b.initiated = true
 }
 
@@ -57,10 +61,14 @@ func (b *bartender) mainAction(c *cli.Context) {
 		b.initAction(c)
 	}
 	
+	debug := b.config.Debugging
+	
 	// Bootstrap the environment
 	envy.Bootstrap()
 	
-	b.logger.Println("Printing c.string('env'):", c.GlobalString("env"))
+	if debug {
+		b.logger.Println("Printing c.string('env'):", c.GlobalString("env"))
+	}
 	
 	// If the environment is set to production or child
 	switch b.config.Environment {

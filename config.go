@@ -7,15 +7,16 @@ import (
 )
 
 type config struct {
-	DomainName string
-     SiteName string
-     DBUser string
-     DBName string
-     DBPassword string
-     Put string
+	DomainName  string
+     SiteName    string
+     DBUser      string
+     DBName      string
+     DBPassword  string
+     Put         string
      Environment string
      AppPort     string
 	ProxyPort   string
+     Debugging   bool
 }
 
 

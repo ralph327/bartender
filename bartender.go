@@ -59,6 +59,10 @@ func (b *bartender) Init(configPath string) {
 			Value: "d",
 			Usage: "environment to run server under",
 		},
+		cli.BoolFlag{
+			Name:  "debugging,d",
+			Usage: "Output debugging info or not",
+		},
 		cli.StringFlag{
 			Name:  "proxyPort,p",
 			Value: "9000",
@@ -68,6 +72,7 @@ func (b *bartender) Init(configPath string) {
 			Name:  "appPort,a",
 			Value: "9001",
 			Usage: "port for the Go web server",
+			EnvVar: "PORT",
 		},
 		cli.StringFlag{
 			Name:  "bin,b",
