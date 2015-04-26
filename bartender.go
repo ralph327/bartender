@@ -108,9 +108,10 @@ func (b *bartender) Init(configPath string) {
 }
 
 func (b *bartender) Start(args []string) {
-	if b.environment != "dev" {
-		b.server.Run(":8989")
-	} else if b.environment == "dev" {
-		b.app.Run(args)
+	switch b.environment {
+		case "production", "prod", "p":
+			b.server.Run(":8989")
+		case "development", "dev", "d":
+			b.app.Run(args)
 	}
 }
