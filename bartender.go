@@ -27,7 +27,6 @@ type bartender struct {
 	config 	  *config
 	startTime   time.Time
 	logger      *log.Logger
-	immediate   bool
 	buildError  error
 	app 		  *cli.App
 	environment string
@@ -80,10 +79,6 @@ func (b *bartender) Init(configPath string) {
 			Usage: "Path to watch files from",
 		},
 		cli.BoolFlag{
-			Name:  "immediate,i",
-			Usage: "run the server immediately after it's built",
-		},
-		cli.BoolFlag{
 			Name:  "godep,g",
 			Usage: "use godep when building",
 		},
@@ -114,7 +109,6 @@ func (b *bartender) Init(configPath string) {
     })
 	b.startTime  = time.Now()
 	b.logger     = log.New(os.Stdout, "[genever] ", 0)
-	b.immediate  = false
 	b.proxyOn    = false
 	b.initiated  = false
 }

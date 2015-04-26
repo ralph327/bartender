@@ -38,7 +38,6 @@ func (b *bartender) mainAction(c *cli.Context) {
 	
 	port := c.GlobalInt("port")
 	appPort := strconv.Itoa(c.GlobalInt("appPort"))
-	b.immediate = c.GlobalBool("immediate")
 
 	// Bootstrap the environment
 	envy.Bootstrap()
@@ -131,9 +130,9 @@ func (b *bartender) build(builder genever.Builder, runner genever.Runner, logger
 			b.logger.Println("Build Successful")
 		}
 		b.buildError = nil
-		if b.immediate {
-			runner.Run()
-		}
+		
+		// run the server
+		runner.Run()
 	}
 
 	time.Sleep(100 * time.Millisecond)
