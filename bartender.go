@@ -30,6 +30,7 @@ type bartender struct {
 	buildError  error
 	app 		  *cli.App
 	proxyOn	  bool
+	childOn	  bool
 	initiated   bool
 }
 
@@ -109,6 +110,7 @@ func (b *bartender) Init(configPath string) {
 	b.startTime  = time.Now()
 	b.logger     = log.New(os.Stdout, "[genever] ", 0)
 	b.proxyOn    = false
+	b.childOn	   = false
 	b.initiated  = false
 }
 

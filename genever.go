@@ -56,8 +56,8 @@ func (b *bartender) mainAction(c *cli.Context) {
 		b.initAction(c)
 	}
 	
-	port := c.GlobalString("port")
-	appPort := c.GlobalString("appPort")
+	proxyPort := b.config.ProxyPort
+	appPort := b.config.AppPort
 
 	// Bootstrap the environment
 	envy.Bootstrap()
@@ -86,7 +86,7 @@ func (b *bartender) mainAction(c *cli.Context) {
 	}
 	
 	config := &genever.Config{
-		Port:    port,
+		Port:    proxyPort,
 		ProxyTo: "http://localhost:" + appPort,
 	}
 
@@ -101,7 +101,7 @@ func (b *bartender) mainAction(c *cli.Context) {
 		}
 	}
 	
-	b.logger.Printf("listening on port %d\n", port)
+	b.logger.Printf("listening on port %v\n", proxyPort)
 
 	b.shutdown(runner)
 	
