@@ -104,8 +104,8 @@ func (b *bartender) mainAction(c *cli.Context) {
 	
 	b.logger.Printf("listening on port %s\n", proxyPort)
 
-	b.shutdown(runner)
-	
+	b.logger.Println("before shutdown")
+	//b.shutdown(runner)
 	b.logger.Println("after shutdown")
 
 	// build right now
