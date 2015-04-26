@@ -78,7 +78,7 @@ func (b *bartender) mainAction(c *cli.Context) {
 	// check the run mode
 	b.checkMode(c)
 	
-	b.logger.Println(c.String("env"))
+	b.logger.Println("Printing c.string('env'):", c.String("env"))
 	
 	// Get working directory
 	wd, err := os.Getwd()
