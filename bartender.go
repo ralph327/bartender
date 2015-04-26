@@ -113,5 +113,6 @@ func (b *bartender) Start(args []string) {
 			b.server.Run(":8989")
 		case "development", "dev", "d":
 			b.app.Run(args)
+			b.server.Run(":9191")
 	}
 }
