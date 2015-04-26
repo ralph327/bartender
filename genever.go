@@ -47,33 +47,46 @@ func (b *bartender) initAction(c *cli.Context) {
 	}
 	
 	b.initiated = true
-	
+}
+
+func (b *bartender) checkMode(c *cli.Context) {
+	// running with no commands or flags
 	if len(c.Args()) == 1 {
-		b.mainAction(c)
+		
+	} else if len(c.Args()) > 1 {
+		if c.IsSet("env") || c.IsSet("e") {
+			var tempEnv string
+			tempEnv = c.String("env")
+			if tempEnv == "" {
+				tempEnv = c.String("e")
+			}
+		}
 	}
 }
 
 // runs genever
 func (b *bartender) mainAction(c *cli.Context) {
 	
+	// Run initiate if haven't
 	if b.initiated == false {
 		b.initAction(c)
 	}
 	
-	proxyPort := b.config.ProxyPort
-	appPort := b.config.AppPort
-
 	// Bootstrap the environment
 	envy.Bootstrap()
-
-	// Set the PORT env
-	os.Setenv("PORT", appPort)
-
+	
+	// check the run mode
+	b.checkMode(c)
+	
+	b.logger.Println(c.String("env"))
+	
+	// Get working directory
 	wd, err := os.Getwd()
 	if err != nil {
 		b.logger.Fatal(err)
 	}
-
+	
+	// Set builder and runner
 	b.logger.Println("before builder")
 	b.logger.Println("Running builder: ", c.GlobalString("path"), c.GlobalString("bin"), c.GlobalBool("godep"))
 	builder := genever.NewBuilder(c.GlobalString("path"), c.GlobalString("bin"), c.GlobalBool("godep"))
@@ -82,6 +95,14 @@ func (b *bartender) mainAction(c *cli.Context) {
 	runner := genever.NewRunner(filepath.Join(wd, builder.Binary()), "c")
 	b.logger.Println("before writer")
 	runner.SetWriter(os.Stdout)
+	
+	// Run proxy if not child process and not in production
+	proxyPort := b.config.ProxyPort
+	appPort := b.config.AppPort
+	
+	// Set the PORT env
+	os.Setenv("PORT", appPort)
+	
 	var proxy *genever.Proxy
 	if b.proxyOn == false {
 		b.logger.Println("before proxy")
