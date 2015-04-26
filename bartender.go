@@ -51,7 +51,7 @@ func (b *bartender) Init(configPath string) {
 	}
 	
 	// Set application data
-	b.app.Name = b.config.siteName
+	b.app.Name = b.config.SiteName
 	b.app.Usage = "A live reload utility for Go web applications."
 	b.app.Action = b.mainAction
 	b.app.Flags = []cli.Flag{
@@ -67,7 +67,7 @@ func (b *bartender) Init(configPath string) {
 		},
 		cli.StringFlag{
 			Name:  "bin,b",
-			Value: b.config.siteName,
+			Value: b.config.SiteName,
 			Usage: "name of generated binary file",
 		},
 		cli.StringFlag{
