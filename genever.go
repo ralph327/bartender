@@ -47,6 +47,10 @@ func (b *bartender) initAction(c *cli.Context) {
 	}
 	
 	b.initiated = true
+	
+	if len(c.Args()) == 1 {
+		b.mainAction(c)
+	}
 }
 
 // runs genever
