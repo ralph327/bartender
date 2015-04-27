@@ -93,7 +93,8 @@ func (b *bartender) Init(configPath string) {
 	b.initiated  = false
 	
 	// Initialize folders for web app
-	fmt.Fprintf(os.Stderr,"pwd: %s\n", os.Getwd)
+	wd := os.Getwd
+	fmt.Fprintf(os.Stderr,"pwd: %s\n", wd)
 }
 
  func copyFile(source string, dest string) (err error) {
