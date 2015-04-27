@@ -4,6 +4,7 @@ import (
 	"github.com/codegangsta/cli"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
+	"github.com/suapapa/go_sass"
 	"log"
 	"os"
 	"fmt"
@@ -25,6 +26,7 @@ func NewBartender(configPath string) Bartender {
 type bartender struct {
 	server 	  *gin.Engine
 	database 	  *gorm.DB
+	sc 		  *sass.Compiler
 	config 	  *config
 	startTime   time.Time
 	logger      *log.Logger

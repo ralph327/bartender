@@ -180,7 +180,12 @@ func (b *bartender) envAction(c *cli.Context) {
 }
 
 func (b *bartender) build(builder genever.Builder, runner genever.Runner, logger *log.Logger) {
+	
+	// Build the binary
 	err := builder.Build()
+	
+	// Scan and compile scss files
+     b.sc.CompileFolder("views/sass/", "public/css")
 
 	if err != nil {
 		b.buildError = err
@@ -215,7 +220,7 @@ func (b *bartender) scanChanges(watchPath string, cb scanCallback) {
 				return nil
 			}
 
-			if (filepath.Ext(path) == ".go" || filepath.Ext(path) == ".tmpl" || filepath.Ext(path) == ".css" || filepath.Ext(path) == ".json") && info.ModTime().After(b.startTime) {
+			if (filepath.Ext(path) == ".go" || filepath.Ext(path) == ".tmpl" || filepath.Ext(path) == ".scss" || filepath.Ext(path) == ".json") && info.ModTime().After(b.startTime) {
 				cb(path)
 				b.startTime = time.Now()
 				return errors.New("done")
