@@ -82,10 +82,6 @@ func (b *bartender) mainAction(c *cli.Context) {
 	// Bootstrap the environment
 	envy.Bootstrap()
 	
-	if b.debug {
-		b.logger.Println("Printing c.string('env'):", c.GlobalString("env"))
-	}
-	
 	// If the environment is set to production or child
 	switch b.config.Environment {
 		case "production", "p", "child", "c":
@@ -100,20 +96,15 @@ func (b *bartender) mainAction(c *cli.Context) {
 	
 	// Set builder and runner
 	if b.debug {
-		b.logger.Println("before builder")
-		b.logger.Println("Running builder: ", c.GlobalString("path"), c.GlobalString("bin"), c.GlobalBool("godep"))
+		b.logger.Println("Running NewBuilder: ", c.GlobalString("path"), c.GlobalString("bin"), c.GlobalBool("godep"))
 	}
 	builder := genever.NewBuilder(c.GlobalString("path"), c.GlobalString("bin"), c.GlobalBool("godep"))
 	
 	if b.debug {
-		b.logger.Println("before runner")
-		b.logger.Println("Running runner:", filepath.Join(wd, builder.Binary()), "-e", "c", "-d", "f")
+		b.logger.Println("Running NewRunner:", filepath.Join(wd, builder.Binary()), "-e", "c", "-d", "f")
 	}
 	runner := genever.NewRunner(filepath.Join(wd, builder.Binary()), "-e", "c", "-d", "f")
 	
-	if b.debug {
-		b.logger.Println("before writer")
-	}
 	runner.SetWriter(os.Stdout)
 	
 	// Run proxy for development environment
@@ -126,30 +117,18 @@ func (b *bartender) mainAction(c *cli.Context) {
 		
 		// Set the PORT env
 		os.Setenv("PORT", appPort)
-		if b.debug {
-			b.logger.Println("before proxy")
-		}
 		proxy = genever.NewProxy(builder, runner)
-		if b.debug {
-			b.logger.Println("after proxy")
-		}
-		
+
 		config := &genever.Config{
 			Port:    proxyPort,
 			ProxyTo: "http://localhost:" + appPort,
 		}
 
-		if b.debug {
-			b.logger.Println("before proxy run")
-		}
-
 		err = proxy.Run(config)
-		if b.debug {
-			b.logger.Println("after proxy run")
-		}
+
 		if err != nil {
 			if b.debug {
-				b.logger.Println("Fatal error after proxy run")
+				b.logger.Println("Fatal error on proxy run")
 				b.logger.Fatal(err)
 			}
 		}
@@ -158,37 +137,22 @@ func (b *bartender) mainAction(c *cli.Context) {
 			b.logger.Printf("listening on port %s\n", proxyPort)
 		}
 	}
-	
-	if b.debug {
-		b.logger.Println("before shutdown")
-	}
+
 	b.shutdown(runner)
-	if b.debug {
-		b.logger.Println("after shutdown")
-	}
 
 	// build right now
-	if b.debug {
-		b.logger.Println("before build")
-	}
 	b.build(builder, runner, b.logger)
-	if b.debug {
-		b.logger.Println("after build")
-	}
 
 	// scan for changes
 	b.scanChanges(c.GlobalString("path"), func(path string) {
 		err := runner.Kill()
 		
 		if b.debug {
-			b.logger.Println("Kill err:", err)
-			
-			b.logger.Println("build after kill")
+			if err != nil {
+				b.logger.Println("Kill err:", err)
+			}
 		}
 		b.build(builder, runner, b.logger)
-		if b.debug {
-			b.logger.Println("after build after kill")
-		}
 	})
 }
 
@@ -220,9 +184,6 @@ func (b *bartender) build(builder genever.Builder, runner genever.Runner, logger
 		}
 		b.buildError = nil
 		
-		if b.debug {
-			b.logger.Println("RUNNING")
-		}
 		// run the server
 		runner.Run()
 	}
