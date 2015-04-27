@@ -6,6 +6,7 @@ import (
 	"github.com/jinzhu/gorm"
 	"log"
 	"os"
+	"fmt"
 	"time"
 	"net/http"
 )
@@ -43,7 +44,7 @@ func (b *bartender) Init(configPath string) {
 	b.config, err = loadConfig(configPath)
 	
 	if err != nil {
-		b.logger.Println(err)
+		fmt.Fprint(os.Stderr,"Error while loading config: %s\n",err)
 		os.Exit(1)
 	}
 	
