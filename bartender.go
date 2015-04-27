@@ -44,7 +44,7 @@ func (b *bartender) Init(configPath string) {
 	b.config, err = loadConfig(configPath)
 	
 	if err != nil {
-		fmt.Fprint(os.Stderr,"Error while loading config: %s\n",err)
+		fmt.Fprintf(os.Stderr,"Error while loading config: %s\n", err)
 		os.Exit(1)
 	}
 	
