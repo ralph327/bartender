@@ -180,7 +180,7 @@ func (b *bartender) build(builder genever.Builder, runner genever.Runner, logger
 	
 	// Scan and compile scss files
 	if b.debug {
-		fmt.Println("SASS compiling: %s/views/sass %s/public/css",b.wd,b.wd)
+		fmt.Printf("SASS compiling: %s/views/sass %s/public/css\n",b.wd,b.wd)
 	}
      b.sc.CompileFolder(b.wd + "/views/sass", b.wd + "/public/css")
 
