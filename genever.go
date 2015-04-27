@@ -18,10 +18,19 @@ import (
 
 // Checks and sets flags
 func (b *bartender) initAction(c *cli.Context) {
-	b.logger.Println("initating genever")
 	
 	// Check and set environment
 	b.config.Environment = c.String("env")
+	
+	// Initiate logger print out
+	switch b.config.Environment {
+		case "production", "p", "development", "d":
+			b.logger = log.New(os.Stdout, "[genever] ", 0)
+		case "child", "c" :
+			b.logger = log.New(os.Stdout, "[genever-child] ", 0)
+	}
+	
+	b.logger.Println("initating genever")
 	
 	// Ensure proxy and app ports are set
 	var tempPort string

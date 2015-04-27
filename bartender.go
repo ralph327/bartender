@@ -114,7 +114,6 @@ func (b *bartender) Init(configPath string) {
         c.String(http.StatusOK, b.config.Put)
     })
 	b.startTime  = time.Now()
-	b.logger     = log.New(os.Stdout, "[genever] ", 0)
 	b.initiated  = false
 }
 
