@@ -109,7 +109,7 @@ func (b *bartender) mainAction(c *cli.Context) {
 		b.logger.Println("before runner")
 		b.logger.Println("Running runner:", filepath.Join(wd, builder.Binary()), "-e", "c", "-d", "f")
 	}
-	runner := genever.NewRunner(filepath.Join(wd, builder.Binary()), "-e", "c", "-d", "-f")
+	runner := genever.NewRunner(filepath.Join(wd, builder.Binary()), "-e", "c", "-d", "f")
 	
 	if b.debug {
 		b.logger.Println("before writer")
