@@ -16,7 +16,7 @@ type config struct {
      Environment string
      AppPort     string
 	ProxyPort   string
-     Debugging   bool
+     Debugging   string
 }
 
 

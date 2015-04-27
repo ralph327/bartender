@@ -30,8 +30,7 @@ type bartender struct {
 	buildError  error
 	app 		  *cli.App
 	args		  []string
-	proxyOn	  bool
-	childOn	  bool
+	debug	  bool
 	initiated   bool
 }
 
@@ -59,8 +58,9 @@ func (b *bartender) Init(configPath string) {
 			Value: "d",
 			Usage: "environment to run server under",
 		},
-		cli.BoolFlag{
+		cli.StringFlag{
 			Name:  "debugging,d",
+			Value: "t",
 			Usage: "Output debugging info or not",
 		},
 		cli.StringFlag{
@@ -115,8 +115,6 @@ func (b *bartender) Init(configPath string) {
     })
 	b.startTime  = time.Now()
 	b.logger     = log.New(os.Stdout, "[" + b.config.SiteName + "] ", 0)
-	b.proxyOn    = false
-	b.childOn	   = false
 	b.initiated  = false
 }
 

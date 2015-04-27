@@ -46,10 +46,26 @@ func (b *bartender) initAction(c *cli.Context) {
 		b.config.ProxyPort = "9000"
 	}
 	
-	b.logger.Println("Default debugging: ", b.config.Debugging)
 	// Set debugging flag, on by default
+	switch b.config.Debugging {
+		case "","t", "true":
+			b.config.Debugging = "true"
+			b.debug = true
+		case "false", "f":
+			b.config.Debugging = "false"
+			b.debug = false
+	}
+	
+	// Override config with command line args
 	if c.IsSet("debugging") {
-		b.config.Debugging = true
+		switch c.GlobalString("debugging") {
+			case "t", "true" :
+				b.config.Debugging = "true"
+				b.debug = true
+			case "f", "false" :
+				b.config.Debugging = "false"
+				b.debug = false
+		}
 	}
 	
 	b.initiated = true
@@ -63,12 +79,10 @@ func (b *bartender) mainAction(c *cli.Context) {
 		b.initAction(c)
 	}
 	
-	debug := b.config.Debugging
-	
 	// Bootstrap the environment
 	envy.Bootstrap()
 	
-	if debug {
+	if b.debug {
 		b.logger.Println("Printing c.string('env'):", c.GlobalString("env"))
 	}
 	
@@ -85,19 +99,19 @@ func (b *bartender) mainAction(c *cli.Context) {
 	}
 	
 	// Set builder and runner
-	if debug {
+	if b.debug {
 		b.logger.Println("before builder")
 		b.logger.Println("Running builder: ", c.GlobalString("path"), c.GlobalString("bin"), c.GlobalBool("godep"))
 	}
 	builder := genever.NewBuilder(c.GlobalString("path"), c.GlobalString("bin"), c.GlobalBool("godep"))
 	
-	if debug {
+	if b.debug {
 		b.logger.Println("before runner")
 		b.logger.Println("Running runner:", filepath.Join(wd, builder.Binary()), "c")
 	}
 	runner := genever.NewRunner(filepath.Join(wd, builder.Binary()), "c")
 	
-	if debug {
+	if b.debug {
 		b.logger.Println("before writer")
 	}
 	runner.SetWriter(os.Stdout)
@@ -112,11 +126,11 @@ func (b *bartender) mainAction(c *cli.Context) {
 		
 		// Set the PORT env
 		os.Setenv("PORT", appPort)
-		if debug {
+		if b.debug {
 			b.logger.Println("before proxy")
 		}
 		proxy = genever.NewProxy(builder, runner)
-		if debug {
+		if b.debug {
 			b.logger.Println("after proxy")
 		}
 		
@@ -125,43 +139,40 @@ func (b *bartender) mainAction(c *cli.Context) {
 			ProxyTo: "http://localhost:" + appPort,
 		}
 
-		if debug {
+		if b.debug {
 			b.logger.Println("before proxy run")
 		}
-		if b.proxyOn == false {
-			err = proxy.Run(config)
-			if debug {
-				b.logger.Println("after proxy run")
-			}
-			if err != nil {
-				if debug {
-					b.logger.Println("Fatal error after proxy run")
-					b.logger.Fatal(err)
-				}
-			}else{
-				b.proxyOn = true
+
+		err = proxy.Run(config)
+		if b.debug {
+			b.logger.Println("after proxy run")
+		}
+		if err != nil {
+			if b.debug {
+				b.logger.Println("Fatal error after proxy run")
+				b.logger.Fatal(err)
 			}
 		}
 		
-		if debug {
+		if b.debug {
 			b.logger.Printf("listening on port %s\n", proxyPort)
 		}
 	}
 	
-	if debug {
+	if b.debug {
 		b.logger.Println("before shutdown")
 	}
 	b.shutdown(runner)
-	if debug {
+	if b.debug {
 		b.logger.Println("after shutdown")
 	}
 
 	// build right now
-	if debug {
+	if b.debug {
 		b.logger.Println("before build")
 	}
 	b.build(builder, runner, b.logger)
-	if debug {
+	if b.debug {
 		b.logger.Println("after build")
 	}
 
@@ -169,13 +180,13 @@ func (b *bartender) mainAction(c *cli.Context) {
 	b.scanChanges(c.GlobalString("path"), func(path string) {
 		err := runner.Kill()
 		
-		if debug {
+		if b.debug {
 			b.logger.Println("Kill err:", err)
 			
 			b.logger.Println("build after kill")
 		}
 		b.build(builder, runner, b.logger)
-		if debug {
+		if b.debug {
 			b.logger.Println("after build after kill")
 		}
 	})
@@ -197,7 +208,7 @@ func (b *bartender) envAction(c *cli.Context) {
 
 func (b *bartender) build(builder genever.Builder, runner genever.Runner, logger *log.Logger) {
 	err := builder.Build()
-	debug := b.config.Debugging
+
 	if err != nil {
 		b.buildError = err
 		b.logger.Println("ERROR! Build failed.")
@@ -209,7 +220,7 @@ func (b *bartender) build(builder genever.Builder, runner genever.Runner, logger
 		}
 		b.buildError = nil
 		
-		if debug {
+		if b.debug {
 			b.logger.Println("RUNNING")
 		}
 		// run the server
