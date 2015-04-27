@@ -96,9 +96,9 @@ func (b *bartender) mainAction(c *cli.Context) {
 	
 	// Set builder and runner
 	if b.debug {
-		b.logger.Println("Running NewBuilder: ", c.GlobalString("path"), c.GlobalString("bin"), c.GlobalBool("godep"))
+		b.logger.Println("Running NewBuilder: ", c.GlobalString("path"), c.GlobalString("bin")+"_child", c.GlobalBool("godep"))
 	}
-	builder := genever.NewBuilder(c.GlobalString("path"), c.GlobalString("bin"), c.GlobalBool("godep"))
+	builder := genever.NewBuilder(c.GlobalString("path"), c.GlobalString("bin")+"_child", c.GlobalBool("godep"))
 	
 	if b.debug {
 		b.logger.Println("Running NewRunner:", filepath.Join(wd, builder.Binary()), "-e", "c", "-d", "f")
