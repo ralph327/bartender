@@ -185,8 +185,7 @@ func (b *bartender) build(builder genever.Builder, runner genever.Runner, logger
 	err := builder.Build()
 	
 	// Scan and compile scss files
-	// commented out until copy of view/sas/ public/css is done
-     //b.sc.CompileFolder("views/sass/", "public/css")
+     b.sc.CompileFolder("views/sass/", "public/css")
 
 	if err != nil {
 		b.buildError = err
