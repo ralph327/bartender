@@ -103,7 +103,7 @@ func (b *bartender) Init(configPath string) {
 	// if the directory does not already exist
 	if !dirExists(wd + "/views") {
 		fmt.Fprintf(os.Stdout, "Copying /views to working directory\n")
-		err = copyFile(gopath + "/src/github.com/ralph327/bartender/views", wd + "/views")
+		err = copyDir(gopath + "/src/github.com/ralph327/bartender/views", wd + "/views")
 		
 		if err != nil {
 			fmt.Fprintf(os.Stderr,"Error while copying /views: %s\n", err)
@@ -115,7 +115,7 @@ func (b *bartender) Init(configPath string) {
 	// if the directory does not already exist
 	if !dirExists(wd + "/public") {
 		fmt.Fprintf(os.Stdout, "Copying /public to working directory\n")
-		err = copyFile(gopath + "/src/github.com/ralph327/bartender/public", wd + "/public")
+		err = copyDir(gopath + "/src/github.com/ralph327/bartender/public", wd + "/public")
 		
 		if err != nil {
 			fmt.Fprintf(os.Stderr,"Error while copying /public: %s\n", err)
