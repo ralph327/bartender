@@ -97,13 +97,13 @@ func (b *bartender) Init(configPath string) {
 	gopath := envy.MustGet("GOPATH")
 	
 	// Get the working directory
-	wd, _ := os.Getwd()
+	b.wd, _ = os.Getwd()
 	
 	// Copy framework views to the working directory
 	// if the directory does not already exist
-	if !dirExists(wd + "/views") {
+	if !dirExists(b.wd + "/views") {
 		fmt.Fprintf(os.Stdout, "Copying /views to working directory\n")
-		err = copyDir(gopath + "/src/github.com/ralph327/bartender/views", wd + "/views")
+		err = copyDir(gopath + "/src/github.com/ralph327/bartender/views", b.wd + "/views")
 		
 		if err != nil {
 			fmt.Fprintf(os.Stderr,"Error while copying /views: %s\n", err)
@@ -113,9 +113,9 @@ func (b *bartender) Init(configPath string) {
 	
 	// Copy framework views to the working directory
 	// if the directory does not already exist
-	if !dirExists(wd + "/public") {
+	if !dirExists(b.wd + "/public") {
 		fmt.Fprintf(os.Stdout, "Copying /public to working directory\n")
-		err = copyDir(gopath + "/src/github.com/ralph327/bartender/public", wd + "/public")
+		err = copyDir(gopath + "/src/github.com/ralph327/bartender/public", b.wd + "/public")
 		
 		if err != nil {
 			fmt.Fprintf(os.Stderr,"Error while copying /public: %s\n", err)

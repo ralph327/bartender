@@ -82,7 +82,7 @@ func (b *bartender) initAction(c *cli.Context) {
 
 // runs genever
 func (b *bartender) mainAction(c *cli.Context) {
-	
+	var err error
 	// Run initiate if haven't
 	if b.initiated == false {
 		b.initAction(c)
@@ -97,12 +97,6 @@ func (b *bartender) mainAction(c *cli.Context) {
 			b.server.Run(":" + b.config.AppPort)
 	}
 	
-	// Get working directory
-	wd, err := os.Getwd()
-	if err != nil {
-		b.logger.Fatal(err)
-	}
-	
 	// Set builder and runner
 	if b.debug {
 		b.logger.Println("Running NewBuilder: ", c.GlobalString("path"), c.GlobalString("bin")+"_child", c.GlobalBool("godep"))
@@ -110,9 +104,9 @@ func (b *bartender) mainAction(c *cli.Context) {
 	builder := genever.NewBuilder(c.GlobalString("path"), c.GlobalString("bin")+"_child", c.GlobalBool("godep"))
 	
 	if b.debug {
-		b.logger.Println("Running NewRunner:", filepath.Join(wd, builder.Binary()), "-e", "c", "-d", "f")
+		b.logger.Println("Running NewRunner:", filepath.Join(b.wd, builder.Binary()), "-e", "c", "-d", "f")
 	}
-	runner := genever.NewRunner(filepath.Join(wd, builder.Binary()), "-e", "c", "-d", "f")
+	runner := genever.NewRunner(filepath.Join(b.wd, builder.Binary()), "-e", "c", "-d", "f")
 	
 	runner.SetWriter(os.Stdout)
 	
@@ -185,7 +179,7 @@ func (b *bartender) build(builder genever.Builder, runner genever.Runner, logger
 	err := builder.Build()
 	
 	// Scan and compile scss files
-     b.sc.CompileFolder("views/sass/", "public/css")
+     b.sc.CompileFolder(b.wd + "views/sass/", b.wd + "public/css")
 
 	if err != nil {
 		b.buildError = err

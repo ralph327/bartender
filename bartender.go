@@ -31,6 +31,7 @@ type bartender struct {
 	app 		  *cli.App
 	debug	  bool
 	initiated   bool
+	wd		  string
 }
 
 
