@@ -29,7 +29,6 @@ type bartender struct {
 	logger      *log.Logger
 	buildError  error
 	app 		  *cli.App
-	args		  []string
 	debug	  bool
 	initiated   bool
 }
@@ -117,11 +116,7 @@ func (b *bartender) Init(configPath string) {
 	b.initiated  = false
 }
 
-func (b *bartender) Start(args []string) {
-	b.logger.Println(args)
-	
-	b.args = args
-	
+func (b *bartender) Start(args []string) {	
 	// Run mainAction
 	b.app.Run(args)
 }
