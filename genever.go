@@ -179,7 +179,7 @@ func (b *bartender) build(builder genever.Builder, runner genever.Runner, logger
 	err := builder.Build()
 	
 	// Scan and compile scss files
-     b.sc.CompileFolder(b.wd + "views/sass", b.wd + "public/css")
+     b.sc.CompileFolder(b.wd + "/views/sass", b.wd + "/public/css")
 
 	if err != nil {
 		b.buildError = err
