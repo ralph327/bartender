@@ -102,7 +102,7 @@ func (b *bartender) Init(configPath string) {
 	// Copy framework views to the working directory
 	// if the directory does not already exist
 	if !dirExists(wd + "/views") {
-		fmt.Fprintf(os.Stdout, "Copying /views to working directory")
+		fmt.Fprintf(os.Stdout, "Copying /views to working directory\n")
 		err = copyFile(gopath + "/src/github.com/ralph327/bartender/views", wd + "/views")
 		
 		if err != nil {
@@ -114,7 +114,7 @@ func (b *bartender) Init(configPath string) {
 	// Copy framework views to the working directory
 	// if the directory does not already exist
 	if !dirExists(wd + "/public") {
-		fmt.Fprintf(os.Stdout, "Copying /public to working directory")
+		fmt.Fprintf(os.Stdout, "Copying /public to working directory\n")
 		err = copyFile(gopath + "/src/github.com/ralph327/bartender/public", wd + "/public")
 		
 		if err != nil {
@@ -131,7 +131,7 @@ func dirExists(dir string) bool {
 	
 	if err == nil {
 		if !src.IsDir() {
-			fmt.Fprintf(os.Stderr, "%s is not a directory", dir)
+			fmt.Fprintf(os.Stderr, "%s is not a directory\n", dir)
 			os.Exit(1)
 		}
 		return true
