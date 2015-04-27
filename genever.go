@@ -181,6 +181,7 @@ func (b *bartender) build(builder genever.Builder, runner genever.Runner, logger
 	// Scan and compile scss files
 	if b.debug {
 		fmt.Printf("SASS compiling: %s/views/sass %s/public/css\n",b.wd,b.wd)
+		fmt.Println("Source dir ToSlash:", filepath.ToSlash("/home/rafael/Workspace/bartender_tester/base/views/sass"))
 	}
      b.sc.CompileFolder(b.wd + "/views/sass", b.wd + "/public/css")
 
