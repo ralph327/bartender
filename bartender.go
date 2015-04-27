@@ -23,7 +23,7 @@ func NewBartender(configPath string) Bartender {
 type bartender struct {
 	server 	  *gin.Engine
 	database 	  *gorm.DB
-	sc 		  sass.Compiler
+	sc 		  *sass.Compiler
 	config 	  *config
 	startTime   time.Time
 	logger      *log.Logger

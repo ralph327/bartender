@@ -93,7 +93,7 @@ func (b *bartender) Init(configPath string) {
 	b.initiated  = false
 	
 	// Initialize folders for web app
-	wd := os.Getwd
+	wd, _ := os.Getwd()
 	fmt.Fprintf(os.Stderr,"pwd: %s\n", wd)
 }
 
