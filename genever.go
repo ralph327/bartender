@@ -179,12 +179,13 @@ func (b *bartender) build(builder genever.Builder, runner genever.Runner, logger
 	err := builder.Build()
 	
 	// Scan and compile scss files
+	/* Comment out SASS scan until issue can be fixed
 	if b.debug {
 		fmt.Printf("SASS compiling: %s/views/sass %s/public/css\n",b.wd,b.wd)
 		fmt.Println("Source dir ToSlash:", filepath.ToSlash("/home/rafael/Workspace/bartender_tester/base/views/sass"))
 	}
      b.sc.CompileFolder("views/sass","public/css")
-
+	*/
 	if err != nil {
 		b.buildError = err
 		b.logger.Println("ERROR! Build failed.")
