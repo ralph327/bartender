@@ -99,27 +99,20 @@ func (b *bartender) Init(configPath string) {
 	// Get the working directory
 	b.wd, _ = os.Getwd()
 	
-	// Copy framework views to the working directory
-	// if the directory does not already exist
-	if !dirExists(b.wd + "/views") {
-		fmt.Fprintf(os.Stdout, "Copying /views to working directory\n")
-		err = copyDir(gopath + "/src/github.com/ralph327/bartender/views", b.wd + "/views")
-		
-		if err != nil {
-			fmt.Fprintf(os.Stderr,"Error while copying /views: %s\n", err)
-			os.Exit(1)
-		}
-	}
+	// Set the directories that need to be created
+	dirs := [...]string{"/views", "/public", "/models", "/controllers"}
 	
-	// Copy framework views to the working directory
-	// if the directory does not already exist
-	if !dirExists(b.wd + "/public") {
-		fmt.Fprintf(os.Stdout, "Copying /public to working directory\n")
-		err = copyDir(gopath + "/src/github.com/ralph327/bartender/public", b.wd + "/public")
-		
-		if err != nil {
-			fmt.Fprintf(os.Stderr,"Error while copying /public: %s\n", err)
-			os.Exit(1)
+	// Copy framework directories to the working directory
+	// do not copy a directory if it exists
+	for _, dir := range dirs {
+		if !dirExists(b.wd + dir) {
+			fmt.Fprintf(os.Stdout, "Copying %s to working directory\n", dir)
+			err = copyDir(gopath + "/src/github.com/ralph327/bartender" + dir, b.wd + dir)
+			
+			if err != nil {
+				fmt.Fprintf(os.Stderr,"Error while copying %s: %s\n", dir, err)
+				os.Exit(1)
+			}
 		}
 	}
 }
