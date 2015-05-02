@@ -4,7 +4,7 @@ import (
 	"github.com/codegangsta/cli"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
-	"github.com/ralph327/gosass"
+	"github.com/ralph327/go_sass"
 	"log"
 	"time"
 )
@@ -24,7 +24,7 @@ type bartender struct {
 	server 	  *gin.Engine
 	database 	  *gorm.DB
 	config 	  *config
-	sassOptions *sass.SassOptions
+	sass		  *sass.Compiler
 	startTime   time.Time
 	logger      *log.Logger
 	buildError  error

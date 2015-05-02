@@ -4,7 +4,7 @@ import (
 	"github.com/codegangsta/cli"
 	"github.com/gin-gonic/gin"
 	"github.com/codegangsta/envy/lib"
-	"github.com/ralph327/gosass"
+	"github.com/ralph327/go_sass"
 	"net/http"
 	"time"
 	"fmt"
@@ -89,13 +89,13 @@ func (b *bartender) Init(configPath string) {
 	}	
 	b.server = gin.Default()
 	b.server.GET("/", func(c *gin.Context) {
-        c.String(http.StatusOK, b.config.Put)
-    })
+		c.String(http.StatusOK, b.config.Put)
+	    })
 	b.startTime  = time.Now()
 	b.initiated  = false
 	
-	b.sassOptions = sass.NewOptions()
-	
+	b.sass = new(sass.Compiler)
+		
 	// Initialize folders for web app
 	gopath := envy.MustGet("GOPATH")
 	
