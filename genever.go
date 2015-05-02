@@ -194,6 +194,7 @@ func (b *bartender) build(builder genever.Builder, runner genever.Runner, logger
 	if err != nil {
 		b.buildError = err
 		b.logger.Println("ERROR! Build failed.")
+		b.logger.Println("Sass error: ", err)
 		b.logger.Println(builder.Errors())
 	} else {
 		// print success only if there were errors before
