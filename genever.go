@@ -181,20 +181,20 @@ func (b *bartender) build(builder genever.Builder, runner genever.Runner, logger
 	if err != nil {
 		b.buildError = err
 		b.logger.Println("ERROR! Build failed.")
-		fmt.Println(builder.Errors())
+		b.logger.Println(builder.Errors())
 	}
 	
 	// Scan and compile scss files
 	if b.debug {
-		fmt.Printf("SASS compiling: %s/views/sass %s/public/css\n",b.wd,b.wd)
-		fmt.Println("Source dir ToSlash:", filepath.ToSlash("/home/rafael/Workspace/bartender_tester/base/views/sass"))
+		b.logger.Printf("SASS compiling: %s/views/sass %s/public/css\n",b.wd,b.wd)
+		b.logger.Println("Source dir ToSlash:", filepath.ToSlash("/home/rafael/Workspace/bartender_tester/base/views/sass"))
 	}
      err = b.sass.CompileFolder("views/sass","public/css")
 
 	if err != nil {
 		b.buildError = err
 		b.logger.Println("ERROR! Build failed.")
-		fmt.Println(builder.Errors())
+		b.logger.Println(builder.Errors())
 	} else {
 		// print success only if there were errors before
 		if b.buildError != nil {
