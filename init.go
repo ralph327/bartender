@@ -135,9 +135,9 @@ func (b *bartender) Init(configPath string) {
      })
      
      // Serve Static files
-     b.server.Static("/"+b.config.DomainName+"/style/css","style/css")
+     b.server.Static("/"+b.config.DomainName+"/public/css","public/css")
      
      // Define templates
-     html := template.Must(template.ParseGlob("style/tmpl/*"))
+     html := template.Must(template.ParseGlob("views/tmpl/*"))
      b.server.SetHTMLTemplate(html)
 }
