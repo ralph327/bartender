@@ -9,7 +9,6 @@ import (
 
 type Controller struct {
 	*gin.Context
-	Name				string
 	controllerType		reflect.Type
 	controllerValue	reflect.Value
 	ControllerName		string
@@ -29,16 +28,18 @@ func (b *bartender) addController(c *Controller) {
 	c.controllerType = validateController(c, nil)
 	
 	c.controllerValue = reflect.New(c.controllerType)
-		
-	b.controllers[c.Name] = c
 }
 
 // Create a new controller
-func (b *bartender) NewController(name string) {
+func (b *bartender) NewController(action string) *Controller {
 	c := new(Controller)
 	
-	c.Name = name
+	c.Action = action
+	c.actionSplit()
+	
 	c.Subdomain = c.getSubdomain(b.config.DomainName)	
+	
+	return c
 }
 
 // Panics unless validation is correct
@@ -69,6 +70,15 @@ func validateController(controller interface{}, parentControllerType reflect.Typ
 func (c *Controller) getSubdomain(dName string) string {
 	host_split := strings.Split(c.Request.Host, "."+dName)
 	return host_split[0]
+}
+
+func (c *Controller) actionSplit() {
+	actionSplit := strings.Split(c.Action, ".")
+		
+	if len(actionSplit) == 2 {
+		c.ControllerName = actionSplit[0]
+		c.MethodName = actionSplit[1]
+	}
 }
 
 // Run the action of the controller
