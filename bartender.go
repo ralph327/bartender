@@ -11,7 +11,8 @@ import (
 
 type Bartender interface {
 	Init(string) 
-	Start([]string) 
+	Start([]string)
+	AddRoute(method string, route string, action string)
 }
 
 func NewBartender(configPath string) Bartender {
@@ -24,6 +25,7 @@ type bartender struct {
 	server 	  *gin.Engine
 	database 	  *gorm.DB
 	config 	  *config
+	controllers map[string]*Controller
 	sass		  *sass.Compiler
 	startTime   time.Time
 	logger      *log.Logger

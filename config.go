@@ -7,7 +7,7 @@ import (
 )
 
 type config struct {
-	DomainName  string
+     DomainName  string
      SiteName    string
      DBUser      string
      DBName      string
@@ -15,25 +15,25 @@ type config struct {
      Put         string
      Environment string
      AppPort     string
-	ProxyPort   string
+     ProxyPort   string
      Debugging   string
 }
 
 
 func loadConfig(path string) (*config, error) {
-	configFile, err := os.Open(path)
+     configFile, err := os.Open(path)
 
-	if err != nil {
-		return nil, fmt.Errorf("Unable to read configuration file %s", path)
-	}
+     if err != nil {
+	  return nil, fmt.Errorf("Unable to read configuration file %s", path)
+     }
 
-	config := new(config)
+     config := new(config)
 
-	decoder := json.NewDecoder(configFile)
-	err = decoder.Decode(&config)
-	if err != nil {
-		return nil, fmt.Errorf("Unable to parse configuration file %s", path)
-	}
+     decoder := json.NewDecoder(configFile)
+     err = decoder.Decode(&config)
+     if err != nil {
+	  return nil, fmt.Errorf("Unable to parse configuration file %s", path)
+     }
 
-	return config, nil
+     return config, nil
 }
