@@ -5,10 +5,12 @@ import (
 	"net/http"
 	"strings"
 	"reflect"
+	"fmt"
+	"os"
 )
 
 type Controller struct {
-	*gin.Context
+	context			*gin.Context
 	controllerType		reflect.Type
 	controllerValue	reflect.Value
 	ControllerName		string
@@ -45,7 +47,8 @@ func validateController(controller interface{}, parentControllerType reflect.Typ
 	controllerType := reflect.TypeOf(controller)
 
 	if controllerType.Kind() != reflect.Struct {
-		panic("Controller needs to be a struct type")
+		fmt.Fprintf(os.Stderr,"Controller Type: %s\n", controllerType.Kind())
+		panic("Controller needs to be a struct type.")
 	}
 
 	if parentControllerType != nil && parentControllerType != controllerType {
@@ -96,8 +99,7 @@ func (c *Controller) actionSplit() {
 func (c *Controller) Do(method string) gin.HandlerFunc {
 	// execute action related to controller
 	
-	c.methodInvoker(method)
-	
+ 	
 	return c.Render()
 }
 
@@ -105,27 +107,27 @@ func (c *Controller) Render() gin.HandlerFunc {
 	switch c.RenderType {
 		case "JSON":
 			return func(*gin.Context){
-				c.JSON(c.HttpStatus, c.Args)
+				c.context.JSON(c.HttpStatus, c.Args)
 			}
 		case "XML":
 			return func(*gin.Context){
-				c.XML(c.HttpStatus, c.Args)
+				c.context.XML(c.HttpStatus, c.Args)
 			}
 		case "HTML":
 			return func(*gin.Context){
-				c.HTML(c.HttpStatus, c.TplName, c.Args)
+				c.context.HTML(c.HttpStatus, c.TplName, c.Args)
 			}
 		case "String":
 			return func(*gin.Context){
-				c.String(c.HttpStatus, c.Args[0].(string), c.Args[1:])
+				c.context.String(c.HttpStatus, c.Args[0].(string), c.Args[1:])
 			}
 		case "HTMLString":
 			return func(*gin.Context){
-				c.HTMLString(c.HttpStatus, c.Args[0].(string), c.Args[1:])
+				c.context.HTMLString(c.HttpStatus, c.Args[0].(string), c.Args[1:])
 			}
 		case "Redirect":
 			return func(*gin.Context){
-				c.Redirect(c.HttpStatus, c.Args[0].(string))
+				c.context.Redirect(c.HttpStatus, c.Args[0].(string))
 			}
 		case "Data":
 			// Convert data to byes
@@ -133,14 +135,14 @@ func (c *Controller) Render() gin.HandlerFunc {
 			for i, elem := range c.Args[1:] {bytes[i] = elem.(byte)} 
 			
 			return func(*gin.Context){
-				c.Data(c.HttpStatus, c.Args[0].(string), bytes)
+				c.context.Data(c.HttpStatus, c.Args[0].(string), bytes)
 			}
 		case "File":
 			return func(*gin.Context){
-				c.File(c.Args[0].(string))
+				c.context.File(c.Args[0].(string))
 			}
 	}
 	return func(*gin.Context){
-		c.String(http.StatusInternalServerError, "Could not render route")
+		c.context.String(http.StatusInternalServerError, "Could not render route")
 	}
 }
