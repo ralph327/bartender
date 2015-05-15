@@ -119,9 +119,9 @@ func (b *bartender) Init(configPath string) {
      
      // Initialize gin
      b.server = gin.Default()
-     b.server.GET("/", func(c *gin.Context) {
+     /*b.server.GET("/", func(c *gin.Context) {
 	  c.String(http.StatusOK, b.config.Put)
-     })
+     })/*
      
      // Define Routes
      b.server.GET("/", func(c *gin.Context) {
