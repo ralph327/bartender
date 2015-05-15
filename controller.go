@@ -46,6 +46,10 @@ func (b *bartender) NewController(action string) *Controller {
 func validateController(controller interface{}, parentControllerType reflect.Type) reflect.Type {
 	controllerType := reflect.TypeOf(&controller)
 
+	if controllerType.Kind() == reflect.Ptr {
+		controllerType = controllerType.Elem()
+	}
+
 	if controllerType.Kind() != reflect.Struct {
 		fmt.Fprintf(os.Stderr,"Controller Type: %s\n", controllerType.Kind())
 		panic("Controller needs to be a struct type.")
