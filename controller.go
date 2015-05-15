@@ -44,7 +44,7 @@ func (b *bartender) NewController(action string) *Controller {
 
 // Panics unless validation is correct
 func validateController(controller interface{}, parentControllerType reflect.Type) reflect.Type {
-	controllerType := reflect.TypeOf(&controller)
+	controllerType := reflect.TypeOf(controller)
 
 	if controllerType.Kind() == reflect.Ptr {
 		controllerType = controllerType.Elem()
