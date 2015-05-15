@@ -36,9 +36,7 @@ func (b *bartender) NewController(action string) *Controller {
 	
 	c.Action = action
 	c.actionSplit()
-	
-	c.Subdomain = c.getSubdomain(b.config.DomainName)	
-	
+		
 	return c
 }
 
@@ -67,9 +65,22 @@ func validateController(controller interface{}, parentControllerType reflect.Typ
 }
 
 // Fetch the subdomain from the context of the controller
+/*
 func (c *Controller) getSubdomain(dName string) string {
 	host_split := strings.Split(c.Request.Host, "."+dName)
 	return host_split[0]
+}
+*/
+
+func GetSubdomain(dName string) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		host_split := strings.Split(c.Request.Host, "."+dName)
+		subdomain := host_split[0]
+		c.Set("subdomain", subdomain)
+		
+		// Handle the request
+		c.Next()
+	}
 }
 
 func (c *Controller) actionSplit() {

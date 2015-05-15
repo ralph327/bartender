@@ -10,7 +10,6 @@ import (
      "time"
      "fmt"
      "os"
-     "strings"
 )
 
 func (b *bartender) Init(configPath string) {
@@ -123,10 +122,12 @@ func (b *bartender) Init(configPath string) {
 	  c.String(http.StatusOK, b.config.Put)
      })*/
      
+     // Define middleware
+     b.server.Use(GetSubdomain(b.config.DomainName))
+     
      // Define Routes
      b.server.GET("/", func(c *gin.Context) {
-          host_split := strings.Split(c.Request.Host, "."+b.config.DomainName)
-	  subdomain := host_split[0]
+	  subdomain := c.MustGet("subdomain").(string)
           data := gin.H{"subdomain": subdomain}
           data["title"] = b.config.SiteName
           data["url"] = b.config.DomainName
