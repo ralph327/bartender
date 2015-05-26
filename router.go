@@ -26,9 +26,5 @@ func (b *bartender) AddRoute(method string, route string, action string) {
 			b.server.OPTIONS(route, b.controllers[c.ControllerName].Do(c.MethodName))
 		case "HEAD":
 			b.server.HEAD(route, b.controllers[c.ControllerName].Do(c.MethodName))
-		case "LINK":
-			b.server.LINK(route, b.controllers[c.ControllerName].Do(c.MethodName))
-		case "UNLINK":
-			b.server.UNLINK(route, b.controllers[c.ControllerName].Do(c.MethodName))
 	}
 }

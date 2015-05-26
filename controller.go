@@ -127,10 +127,6 @@ func (c *Controller) Render() gin.HandlerFunc {
 			return func(*gin.Context){
 				c.context.String(c.HttpStatus, c.Args[0].(string), c.Args[1:])
 			}
-		case "HTMLString":
-			return func(*gin.Context){
-				c.context.HTMLString(c.HttpStatus, c.Args[0].(string), c.Args[1:])
-			}
 		case "Redirect":
 			return func(*gin.Context){
 				c.context.Redirect(c.HttpStatus, c.Args[0].(string))
