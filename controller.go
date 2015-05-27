@@ -108,7 +108,7 @@ func (c *Controller) Do(method string) gin.HandlerFunc {
 	c.HttpStatus = 200
 	c.Args = make([]interface{},1)
 	c.Args[0] = "Hello World"
- 	
+ 	 	
 	return c.Render()
 }
 
@@ -148,6 +148,6 @@ func (c *Controller) Render() gin.HandlerFunc {
 			}
 	}
 	return func(*gin.Context){
-		c.context.String(http.StatusInternalServerError, "Could not render route")
+		c.context.String(500, "Could not render route")
 	}
 }
