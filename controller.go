@@ -109,6 +109,8 @@ func (c *Controller) Do(method string) gin.HandlerFunc {
 		c.Args = make([]interface{},1)
 		c.Args[0] = "Hello World"
 		c.RenderType = "JSON"
+		
+		c.methodInvoker(method)
 			
 		c.Render(ctx)
 	}
