@@ -108,6 +108,7 @@ func (c *Controller) Do(method string) gin.HandlerFunc {
 		c.HttpStatus = 200
 		c.Args = make([]interface{},1)
 		c.Args[0] = "Hello World"
+		c.RenderType = "JSON"
 			
 		c.Render(ctx)
 	}
