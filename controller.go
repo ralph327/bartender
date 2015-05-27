@@ -32,7 +32,7 @@ func (b *bartender) addController(c *Controller) {
 	c.controllerValue = reflect.New(c.controllerType)
 		
 	b.controllers[c.Action] = c
-	fmt.Println("%s - %s - %s", c.Action, c.ControllerName, c.MethodName)
+	fmt.Println(c.Action, " - ", c.ControllerName, " - ", c.MethodName, " - ", c.HttpStatus)
 }
 
 // Create a new controller
