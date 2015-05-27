@@ -2,7 +2,7 @@ package bartender
 
 import (
 	"github.com/gin-gonic/gin"
-	"net/http"
+	_ "net/http"
 	"strings"
 	"reflect"
 	"fmt"
