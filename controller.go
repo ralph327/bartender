@@ -10,7 +10,6 @@ import (
 )
 
 type Controller struct {
-	context			*gin.Context
 	controllerType		reflect.Type
 	controllerValue	reflect.Value
 	ControllerName		string
@@ -38,9 +37,7 @@ func (b *bartender) addController(c *Controller) {
 // Create a new controller
 func (b *bartender) NewController(action string) *Controller {
 	c := new(Controller)
-	
-	c.context = new(gin.Context)
-	
+		
 	c.Action = action
 	c.actionSplit()
 		
@@ -119,25 +116,25 @@ func (c *Controller) Do(method string) gin.HandlerFunc {
 func (c *Controller) Render(ctx *gin.Context) {
 	switch c.RenderType {
 		case "JSON":
-			c.context.JSON(c.HttpStatus, c.Args)
+			ctx.JSON(c.HttpStatus, c.Args)
 		case "XML":
-			c.context.XML(c.HttpStatus, c.Args)
+			ctx.XML(c.HttpStatus, c.Args)
 		case "HTML":
-			c.context.HTML(c.HttpStatus, c.TplName, c.Args)
+			ctx.HTML(c.HttpStatus, c.TplName, c.Args)
 		case "String":
-			c.context.String(c.HttpStatus, c.Args[0].(string), c.Args[1:])
+			ctx.String(c.HttpStatus, c.Args[0].(string), c.Args[1:])
 		case "Redirect":
-			c.context.Redirect(c.HttpStatus, c.Args[0].(string))
+			ctx.Redirect(c.HttpStatus, c.Args[0].(string))
 		case "Data":
 			// Convert data to byes
 			bytes := make([]byte, len(c.Args[1:]))
 			for i, elem := range c.Args[1:] {bytes[i] = elem.(byte)} 
 			
-			c.context.Data(c.HttpStatus, c.Args[0].(string), bytes)
+			ctx.Data(c.HttpStatus, c.Args[0].(string), bytes)
 
 		case "File":
-			c.context.File(c.Args[0].(string))
+			ctx.File(c.Args[0].(string))
 
 	}
-	c.context.String(http.StatusInternalServerError, "Could not render route")
+	ctx.String(http.StatusInternalServerError, "Could not render route")
 }
