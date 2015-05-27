@@ -30,6 +30,8 @@ func (b *bartender) addController(c *Controller) {
 	c.controllerType = validateController(c, nil)
 	
 	c.controllerValue = reflect.New(c.controllerType)
+		
+	b.controllers[c.ControllerName] = c
 }
 
 // Create a new controller
@@ -102,9 +104,9 @@ func (c *Controller) actionSplit() {
 // Run the action of the controller
 func (c *Controller) Do(method string) gin.HandlerFunc {
 	// execute action related to controller
-	//c.HttpStatus = 200
-	//c.Args = make([]interface{},1)
-	//c.Args[0] = "Hello World"
+	c.HttpStatus = 200
+	c.Args = make([]interface{},1)
+	c.Args[0] = "Hello World"
  	
 	return c.Render()
 }
