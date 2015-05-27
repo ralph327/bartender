@@ -102,9 +102,9 @@ func (c *Controller) actionSplit() {
 // Run the action of the controller
 func (c *Controller) Do(method string) gin.HandlerFunc {
 	// execute action related to controller
-	c.HttpStatus = 200
-	c.Args = make([]interface{},1)
-	c.Args[0] = "Hello World"
+	//c.HttpStatus = 200
+	//c.Args = make([]interface{},1)
+	//c.Args[0] = "Hello World"
  	
 	return c.Render()
 }
