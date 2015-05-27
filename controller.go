@@ -31,7 +31,7 @@ func (b *bartender) addController(c *Controller) {
 	
 	c.controllerValue = reflect.New(c.controllerType)
 		
-	b.controllers[c.ControllerName] = c
+	b.controllers[c.Action] = c
 }
 
 // Create a new controller

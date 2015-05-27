@@ -90,6 +90,8 @@ func (b *bartender) Init(configPath string) {
     
      b.startTime  = time.Now()
      b.initiated  = false
+     
+     b.controllers = make(map[string]*Controller)
 	
      b.sass = new(sass.Compiler)
 		
