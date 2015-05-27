@@ -36,7 +36,6 @@ func (b *bartender) addController(c *Controller) {
 func (b *bartender) NewController(action string) *Controller {
 	c := new(Controller)
 	
-	c.HttpStatus = 0
 	c.Action = action
 	c.actionSplit()
 		
