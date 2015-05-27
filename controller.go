@@ -135,7 +135,8 @@ func (c *Controller) Render(ctx *gin.Context) {
 
 		case "File":
 			ctx.File(c.Args[0].(string))
-
+			
+		default:
+			ctx.String(http.StatusInternalServerError, "Could not render route")
 	}
-	ctx.String(http.StatusInternalServerError, "Could not render route")
 }
