@@ -13,18 +13,18 @@ func (b *bartender) AddRoute(method string, route string, action string) {
 	
 	switch method {
 		case "POST":
-			b.server.POST(route, b.controllers[c.ControllerName].Do(c.MethodName))
+			b.server.POST(route, b.controllers[c.Action].Do(c.MethodName))
 		case "GET":
-			b.server.GET(route, b.controllers[c.ControllerName].Do(c.MethodName))
+			b.server.GET(route, b.controllers[c.Action].Do(c.MethodName))
 		case "DELETE":
-			b.server.DELETE(route, b.controllers[c.ControllerName].Do(c.MethodName))
+			b.server.DELETE(route, b.controllers[c.Action].Do(c.MethodName))
 		case "PATCH":
-			b.server.PATCH(route, b.controllers[c.ControllerName].Do(c.MethodName))
+			b.server.PATCH(route, b.controllers[c.Action].Do(c.MethodName))
 		case "PUT":
-			b.server.PUT(route, b.controllers[c.ControllerName].Do(c.MethodName))
+			b.server.PUT(route, b.controllers[c.Action].Do(c.MethodName))
 		case "OPTIONS":
-			b.server.OPTIONS(route, b.controllers[c.ControllerName].Do(c.MethodName))
+			b.server.OPTIONS(route, b.controllers[c.Action].Do(c.MethodName))
 		case "HEAD":
-			b.server.HEAD(route, b.controllers[c.ControllerName].Do(c.MethodName))
+			b.server.HEAD(route, b.controllers[c.Action].Do(c.MethodName))
 	}
 }
