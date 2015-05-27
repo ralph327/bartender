@@ -106,50 +106,38 @@ func (c *Controller) actionSplit() {
 
 // Run the action of the controller
 func (c *Controller) Do(method string) gin.HandlerFunc {
-	// execute action related to controller
-	c.HttpStatus = 200
-	c.Args = make([]interface{},1)
-	c.Args[0] = "Hello World"
- 	 	
-	return c.Render()
+	return func(ctx *gin.Context) {
+		// execute action related to controller
+		c.HttpStatus = 200
+		c.Args = make([]interface{},1)
+		c.Args[0] = "Hello World"
+			
+		c.Render(ctx)
+	}
 }
 
-func (c *Controller) Render() gin.HandlerFunc {
+func (c *Controller) Render(ctx *gin.Context) {
 	switch c.RenderType {
 		case "JSON":
-			return func(*gin.Context){
-				c.context.JSON(c.HttpStatus, c.Args)
-			}
+			c.context.JSON(c.HttpStatus, c.Args)
 		case "XML":
-			return func(*gin.Context){
-				c.context.XML(c.HttpStatus, c.Args)
-			}
+			c.context.XML(c.HttpStatus, c.Args)
 		case "HTML":
-			return func(*gin.Context){
-				c.context.HTML(c.HttpStatus, c.TplName, c.Args)
-			}
+			c.context.HTML(c.HttpStatus, c.TplName, c.Args)
 		case "String":
-			return func(*gin.Context){
-				c.context.String(c.HttpStatus, c.Args[0].(string), c.Args[1:])
-			}
+			c.context.String(c.HttpStatus, c.Args[0].(string), c.Args[1:])
 		case "Redirect":
-			return func(*gin.Context){
-				c.context.Redirect(c.HttpStatus, c.Args[0].(string))
-			}
+			c.context.Redirect(c.HttpStatus, c.Args[0].(string))
 		case "Data":
 			// Convert data to byes
 			bytes := make([]byte, len(c.Args[1:]))
 			for i, elem := range c.Args[1:] {bytes[i] = elem.(byte)} 
 			
-			return func(*gin.Context){
-				c.context.Data(c.HttpStatus, c.Args[0].(string), bytes)
-			}
+			c.context.Data(c.HttpStatus, c.Args[0].(string), bytes)
+
 		case "File":
-			return func(*gin.Context){
-				c.context.File(c.Args[0].(string))
-			}
+			c.context.File(c.Args[0].(string))
+
 	}
-	return func(*gin.Context){
-		c.context.String(http.StatusInternalServerError, "Could not render route")
-	}
+	c.context.String(http.StatusInternalServerError, "Could not render route")
 }
