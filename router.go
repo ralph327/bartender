@@ -7,7 +7,7 @@ func (b *bartender) AddRoute(method string, route string, action string) {
 	// Create a new controller based on the action
 	c := b.NewController(action)
 	
-	// Add the controller to 
+	// Add the controller to the bartender instance
 	b.addController(c)
 	
 	
