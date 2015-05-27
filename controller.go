@@ -39,6 +39,8 @@ func (b *bartender) addController(c *Controller) {
 func (b *bartender) NewController(action string) *Controller {
 	c := new(Controller)
 	
+	c.context = new(gin.Context)
+	
 	c.Action = action
 	c.actionSplit()
 		
@@ -108,9 +110,7 @@ func (c *Controller) Do(method string) gin.HandlerFunc {
 	c.HttpStatus = 200
 	c.Args = make([]interface{},1)
 	c.Args[0] = "Hello World"
- 	
- 	c.RenderType = "JSON"
- 	
+ 	 	
 	return c.Render()
 }
 
