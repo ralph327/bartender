@@ -10,5 +10,7 @@ func (c * Controller) methodInvoker(method string) {
 	for i, elem := range c.Args {argsValue[i] = reflect.ValueOf(elem)} 
 
 	// Call action with args
-	c.controllerValue.MethodByName(method).Call(argsValue)
+	//c.controllerValue.MethodByName(method).Call(argsValue)
+	c.controllerValue.MethodByName(method).Call([]reflect.Value{})
+	
 }
