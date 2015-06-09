@@ -14,7 +14,7 @@ func (c * Controller) methodInvoker(method string) {
 	fmt.Println(method, " - ", argsValue)
 
 	// Call action with args
-	//c.controllerValue.MethodByName(method).Call(argsValue)
-	c.controllerValue.MethodByName(method).Call()
+	c.controllerValue.MethodByName(method).Call(argsValue)
+	//c.controllerValue.MethodByName(method).Call([]reflect.Value{})
 	
 }
