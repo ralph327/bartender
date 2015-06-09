@@ -5,7 +5,8 @@ import (
 	"fmt"
 )
 
-func (c * Controller) methodInvoker(method string) {	
+func (c * Controller) methodInvoker(method string) {
+	fmt.Println("sizeof C.Args", len(c.Args))
 	argsValue := make([]reflect.Value, len(c.Args))
 	
 	for i, elem := range c.Args {argsValue[i] = reflect.ValueOf(elem)} 
