@@ -11,7 +11,7 @@ func (c * Controller) methodInvoker(method string) {
 	
 	for i, elem := range c.Args {argsValue[i] = reflect.ValueOf(elem)} 
 
-	fmt.Println(method, " - ", argsValue)
+	fmt.Println(method, "-", argsValue)
 
 	// Call action with args
 	c.controllerValue.MethodByName(method).Call(argsValue)
