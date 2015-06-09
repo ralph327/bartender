@@ -13,7 +13,7 @@ func (c * Controller) methodInvoker(method string) {
 
 	fmt.Println(method, "-", argsValue)
 
-	fmt.Println("MethodByName.IsValid() ==", reflect.ValueOf(c).MethodByName(method).IsValid())
+	fmt.Println("MethodByName.IsValid() ==", c.controllerValue.MethodByName(method).IsValid())
 	// Call action with args
 	//c.controllerValue.MethodByName(method).IsValid(argValues)
 	//c.controllerValue.MethodByName(method).Call([]reflect.Value{})
