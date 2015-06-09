@@ -73,6 +73,8 @@ func validateController(controller interface{}, parentControllerType reflect.Typ
 		}
 	}
 		
+	controllerType := reflect.TypeOf(controller)
+	
 	return controllerType
 }
 
