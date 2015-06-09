@@ -12,6 +12,7 @@ import (
 type Controller struct {
 	controllerType		reflect.Type
 	controllerValue	reflect.Value
+	controller		interface{}
 	ControllerName		string
 	MethodName		string		
 	Action			string		// Full name Ctrlr.Fcn
@@ -29,6 +30,8 @@ func (b *bartender) addController(c *Controller) {
 	c.controllerType = validateController(c, nil)
 	
 	c.controllerValue = reflect.New(c.controllerType)
+	
+	c.controller = c.controllerValue.Interface()
 			
 	b.controllers[c.Action] = c
 	fmt.Println(c.Action, " - ", c.ControllerName, " - ", c.MethodName, " - ", c.HttpStatus)
@@ -69,9 +72,7 @@ func validateController(controller interface{}, parentControllerType reflect.Typ
 			panic("Controller needs to have first field be a pointer to parent controller")
 		}
 	}
-	
-	controllerType = reflect.TypeOf(controller)
-	
+		
 	return controllerType
 }
 
